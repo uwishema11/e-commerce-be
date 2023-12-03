@@ -36,22 +36,27 @@ const resetPassword = async (token, newPassword, userId, res) => {
   if (freshToken !== token) {
     return res.status(400).json({
       success: false,
-      message: 'token do not match',
+      message: 'token do not match'
     });
   }
   const updatedUser = await models.User.update(
     { password: newPassword },
     {
-      where: { id: userId },
-    },
+      where: { id: userId }
+    }
   );
   await RedisClient.del('passwordToken');
   if (updatedUser) {
     return res.status(201).json({
       success: true,
-      message: 'password rest successfully',
+      message: 'password rest successfully'
     });
   }
 };
 
-export { addUser, getAllUsers, updatePasswordResetToken, resetPassword, findUserByEmail };
+export {
+  addUser,
+  getAllUsers,
+  updatePasswordResetToken,
+  resetPassword, findUserByEmail
+};

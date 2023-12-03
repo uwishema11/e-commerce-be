@@ -3,6 +3,9 @@ require('dotenv').config();
 
 const { REDIS_URL } = process.env;
 const redisClient = redis.createClient({ url: REDIS_URL });
+(async () => {
+  await redisClient.connect();
+})();
 
 redisClient.on('error', (err) => console.error('Redis Client Error', err));
 redisClient.on('connect', () => console.log('Redis Client connected'));
@@ -25,7 +28,7 @@ module.exports = {
 
   deleteToken: async (key) => {
     try {
-      const reply = await redisClient.get(key);
+      const reply = await redisClient.del(key);
       return reply;
     } catch (err) {
       console.error('Error deleting token:', err);

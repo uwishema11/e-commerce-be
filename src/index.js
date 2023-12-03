@@ -1,6 +1,5 @@
 import app from './app.js';
 import sequelize from './database/config/database.js';
-require('./utils/initRedis.js');
 
 const PORT = process.env.PORT || 5000;
 const connectToDatabase = async () => {
