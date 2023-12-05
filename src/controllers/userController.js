@@ -33,16 +33,17 @@ const registerUser = async (req, res) => {
       password: hashedPassword,
     };
     const newUser = await userService.addUser(body);
-    res.status(200).json({
-      success: true,
-      result: newUser,
-    });
+
     sendEmail(
       email,
-      process.env.EMAIL_FROM,
       'Confirmation Email',
       sendEmailOnRegistration(req.body.firstName, process.env.BASE_LINK),
     );
+    res.status(200).json({
+      success: true,
+      message: 'check your email for confirmation',
+      result: newUser,
+    });
   } catch (error) {
     return res.status(500).json({
       success: false,
@@ -95,10 +96,8 @@ const login = async (req, res) => {
 const forgotPassword = async (req, res) => {
   try {
     // find if user exists in our database
-    console.log(req.body);
     const { email } = req.body;
     const user = await userService.findUserByEmail(email);
-    console.log(user);
     if (!user) {
       return res.status(400).json({
         success: false,
@@ -155,4 +154,9 @@ const resetPassword = async (req, res) => {
     });
   }
 };
-export { registerUser, login, resetPassword, forgotPassword };
+export {
+  registerUser,
+  login,
+  resetPassword,
+  forgotPassword
+};

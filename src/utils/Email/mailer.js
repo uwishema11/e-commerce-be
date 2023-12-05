@@ -4,21 +4,17 @@ import nodemailer from 'nodemailer';
 
 dotenv.config();
 
-const sendEmail = async (receiver, sender, subject, template) => {
+const sendEmail = async (receiver, subject, template) => {
   const transport = await nodemailer.createTransport({
     service: 'gmail',
-    host: 'smtp.gmail.com',
-    secure: false,
-    port: 587,
     auth: {
-      type: 'OAuth2',
-      user: process.env.EMAIL_FROM,
-      password: process.env.EMAIL_PASSWORD,
+      user: process.env.USER_EMAIL,
+      pass: process.env.EMAIL_PASSWORD,
     },
   });
 
   const mailOptions = {
-    from: sender,
+    from: `UC E-commerce Team<${process.env.USER_EMAIL}>`,
     to: receiver,
     subject,
     html: template,

@@ -138,7 +138,7 @@ const sendEmailOnRegistration = (name, url) => `<!DOCTYPE html>
               <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
                   <tr>
                       <td bgcolor="#ffffff" align="left" style="padding: 0px 30px 40px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
-                      <h3 style="color: #666666"><span>Hi <span style="color: rgb(0,165,223);">${name}</span>,</span></h3> <p style="margin: 0;color: #666666">welcome to elite-bn-be. We have received your signup  and we encourage you to take the steps below to confirm your password:<br/><br/></p>
+                      <h3 style="color: #666666"><span>Hi <span style="color: rgb(0,165,223);">${name}</span>,</span></h3> <p style="margin: 0;color: #666666">welcome to UC E-commerce App. We have received your registration  click the link below to confirm :<br/><br/></p>
                       <a href=${url} target="_blank" style="color:#4070f4,display:block">Click here to confirm your email</a>
                       </td>
                   </tr>             
@@ -149,7 +149,7 @@ const sendEmailOnRegistration = (name, url) => `<!DOCTYPE html>
                   </tr>
                   <tr>
                       <td bgcolor="#ffffff" align="left" style="padding: 0px 30px 40px 30px; border-radius: 0px 0px 4px 4px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
-                      <p style="margin: 0;">Cheers,<br><b>elite-bn-be</b></p>
+                      <p style="margin: 0;">yours,<br><b>UC e-commerce-app</b></p>
                       </td>
                   </tr>
               </table>
