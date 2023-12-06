@@ -4,12 +4,12 @@ import * as userService from '../services/userService.js';
 import sendEmailOnRegistration from '../utils/Email/emailTempalte.js';
 import sendEmailOnResetPassword from '../utils/Email/resetPasswordTemplate.js';
 import sendEmail from '../utils/Email/mailer.js';
-import { generateAccessToken, verifyAccessToken } from '../helpers/generateToken.js';
+import { generateAccessToken, verifyAccessToken, createSignInToken } from '../helpers/generateToken.js';
 import { userSchema } from '../validations/userValidation.js';
 
 const registerUser = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, confirm_password } = req.body;
     const { error } = await userSchema.validate(req.body);
     if (error) {
       return res.status(400).json({
@@ -28,12 +28,19 @@ const registerUser = async (req, res) => {
     // hash password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
+    const hashedConfirmPassword = await bcrypt.hash(confirm_password, salt);
     const body = {
       ...req.body,
       password: hashedPassword,
+      confirm_password: hashedConfirmPassword
     };
     const newUser = await userService.addUser(body);
+    // remove password from the result
 
+    newUser.password = undefined;
+    newUser.confirm_password = undefined;
+
+    // sending confirmation email to user after registration
     sendEmail(
       email,
       'Confirmation Email',
@@ -66,7 +73,8 @@ const login = async (req, res) => {
 
     if (!user) {
       return res.status(401).json({
-        message: 'Wrong email or Paswword',
+        success: false,
+        message: 'Invalid email or password. Please try again with the correct credentials.',
       });
     }
     // hash and compare passwords
@@ -74,17 +82,12 @@ const login = async (req, res) => {
 
     if (!matchedPassword) {
       return res.status(401).json({
-        message: 'Wrong email or Paswword',
+        success: false,
+        message: 'Invalid email or password. Please try again with the correct credentials.',
       });
     }
-
-    const token = await generateAccessToken(user);
-
-    return res.status(201).json({
-      success: true,
-      message: 'logged in successfully',
-      accessToken: token,
-    });
+    // sending token to client
+    await createSignInToken(user, 201, res);
   } catch (error) {
     return res.status(500).json({
       error: error.message,
@@ -92,6 +95,21 @@ const login = async (req, res) => {
   }
 };
 
+// logging out a user
+const logout = async (req, res) => {
+  try {
+    res.cookie('jwt', 'Loggedout', {
+      expires: new Date(Date.now() + 10 * 1000),
+      httpOnly: true
+    });
+    res.status(200).json({
+      success: true,
+      message: 'loggedout successfully'
+    });
+  } catch (error) {
+    console.log('Error in Logging Out : ', error);
+  }
+};
 // Reset Password via email
 const forgotPassword = async (req, res) => {
   try {
@@ -157,6 +175,7 @@ const resetPassword = async (req, res) => {
 export {
   registerUser,
   login,
+  logout,
   resetPassword,
   forgotPassword
 };
