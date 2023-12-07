@@ -4,7 +4,11 @@ import * as userService from '../services/userService.js';
 import sendEmailOnRegistration from '../utils/Email/emailTempalte.js';
 import sendEmailOnResetPassword from '../utils/Email/resetPasswordTemplate.js';
 import sendEmail from '../utils/Email/mailer.js';
-import { generateAccessToken, verifyAccessToken, createSignInToken } from '../helpers/generateToken.js';
+import {
+  generateAccessToken,
+  verifyAccessToken,
+  createSendToken,
+} from '../helpers/generateToken.js';
 import { userSchema } from '../validations/userValidation.js';
 
 const registerUser = async (req, res) => {
@@ -29,14 +33,14 @@ const registerUser = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
     const hashedConfirmPassword = await bcrypt.hash(confirm_password, salt);
+
     const body = {
       ...req.body,
       password: hashedPassword,
-      confirm_password: hashedConfirmPassword
+      confirm_password: hashedConfirmPassword,
     };
     const newUser = await userService.addUser(body);
     // remove password from the result
-
     newUser.password = undefined;
     newUser.confirm_password = undefined;
 
@@ -46,11 +50,7 @@ const registerUser = async (req, res) => {
       'Confirmation Email',
       sendEmailOnRegistration(req.body.firstName, process.env.BASE_LINK),
     );
-    res.status(200).json({
-      success: true,
-      message: 'check your email for confirmation',
-      result: newUser,
-    });
+    await createSendToken(newUser, 201, 'check your email for confirmation', res);
   } catch (error) {
     return res.status(500).json({
       success: false,
@@ -87,7 +87,7 @@ const login = async (req, res) => {
       });
     }
     // sending token to client
-    await createSignInToken(user, 201, res);
+    await createSendToken(user, 200, 'LoggedIn successfully', res);
   } catch (error) {
     return res.status(500).json({
       error: error.message,
@@ -100,14 +100,17 @@ const logout = async (req, res) => {
   try {
     res.cookie('jwt', 'Loggedout', {
       expires: new Date(Date.now() + 10 * 1000),
-      httpOnly: true
+      httpOnly: true,
     });
     res.status(200).json({
       success: true,
-      message: 'loggedout successfully'
+      message: 'loggedout successfully',
     });
   } catch (error) {
-    console.log('Error in Logging Out : ', error);
+    return res.status(500).json({
+      success: false,
+      message: error.message
+    });
   }
 };
 // Reset Password via email
@@ -140,7 +143,6 @@ const forgotPassword = async (req, res) => {
       resetToken: token,
     });
   } catch (error) {
-    console.log(error);
     return res.status(500).json({
       success: false,
       message: error.message,
@@ -172,10 +174,45 @@ const resetPassword = async (req, res) => {
     });
   }
 };
+
+const updatePassword = async (req, res) => {
+  try {
+    const { password, newPassword } = req.body;
+    // Get user from the collection
+    const userId = req.user.id;
+    const user = await userService.findUserById(userId);
+
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: 'User does not exists or make sure you are logged in',
+      });
+    }
+    // Check if POSTED current password is correct
+    const matchedPassword = await bcrypt.compare(password, user.password);
+
+    if (!matchedPassword) {
+      return res.status(401).json({
+        success: false,
+        message: 'Your current password is wrong',
+      });
+    }
+    const salt = await bcrypt.genSalt(10);
+    const hashNewPassword = await bcrypt.hash(newPassword, salt);
+
+    userService.updatePassword(user.email, hashNewPassword);
+    return res.status(200).json({
+      success: true,
+      message: 'password updated successfully',
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 export {
-  registerUser,
-  login,
-  logout,
-  resetPassword,
-  forgotPassword
+  registerUser, login, logout, updatePassword, resetPassword, forgotPassword
 };

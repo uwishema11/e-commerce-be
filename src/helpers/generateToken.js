@@ -26,13 +26,11 @@ export const verifyAccessToken = async (token) => {
 };
 // setting token in cookies
 
-export const createSignInToken = async (user, statusCode, res) => {
-  const token = await generateAccessToken(user);
+export const createSendToken = async (user, statusCode, message, res) => {
+  const token = await generateAccessToken(user.id);
   const cookieOptions = {
-    expiresIn: new Date(
-      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
-    ),
-    httpOnly: true
+    expiresIn: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000),
+    httpOnly: true,
   };
 
   if (process.env.NODE_ENV === 'PRODUCTION') cookieOptions.secure = true;
@@ -40,7 +38,10 @@ export const createSignInToken = async (user, statusCode, res) => {
   res.cookie('jwt', token, cookieOptions);
   res.status(statusCode).json({
     success: true,
-    message: 'You have successfully logged in.',
+    message,
     accessToken: token,
+    data: {
+      user,
+    },
   });
 };

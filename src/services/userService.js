@@ -20,6 +20,13 @@ const findUserByEmail = async (email) => {
   return user;
 };
 
+const findUserById = async (userId) => {
+  const user = await models.User.findOne({
+    where: { id: userId },
+  });
+  return user;
+};
+
 const updatePasswordResetToken = async (token) => {
   const passwordResetToken = await RedisClient.setToken('passwordToken', token);
   return passwordResetToken;
@@ -36,27 +43,40 @@ const resetPassword = async (token, newPassword, userId, res) => {
   if (freshToken !== token) {
     return res.status(400).json({
       success: false,
-      message: 'token do not match'
+      message: 'token do not match',
     });
   }
   const updatedUser = await models.User.update(
     { password: newPassword },
     {
-      where: { id: userId }
-    }
+      where: { id: userId },
+    },
   );
   await RedisClient.del('passwordToken');
   if (updatedUser) {
     return res.status(201).json({
       success: true,
-      message: 'password rest successfully'
+      message: 'password rest successfully',
     });
   }
+};
+
+const updatePassword = async (email, newPassword) => {
+  const updatedPassword = await models.User.update(
+    { password: newPassword },
+    {
+      where: { email },
+    },
+  );
+  return updatedPassword;
 };
 
 export {
   addUser,
   getAllUsers,
+  updatePassword,
+  findUserById,
   updatePasswordResetToken,
-  resetPassword, findUserByEmail
+  resetPassword,
+  findUserByEmail,
 };
