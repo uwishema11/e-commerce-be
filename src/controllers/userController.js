@@ -109,7 +109,7 @@ const logout = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       success: false,
-      message: error.message
+      message: error.message,
     });
   }
 };
@@ -213,6 +213,4 @@ const updatePassword = async (req, res) => {
   }
 };
 
-export {
-  registerUser, login, logout, updatePassword, resetPassword, forgotPassword
-};
+export { registerUser, login, logout, updatePassword, resetPassword, forgotPassword };

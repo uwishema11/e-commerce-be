@@ -18,7 +18,7 @@ export const generateAccessToken = async (user) => {
 
 export const verifyAccessToken = async (token) => {
   try {
-    const decoded = jwt.verify(token, secret);
+    const decoded = await jwt.verify(token, secret);
     return { success: true, data: decoded };
   } catch (error) {
     return { success: false, error: error.message };
