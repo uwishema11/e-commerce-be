@@ -10,6 +10,7 @@ import {
   createSendToken,
 } from '../helpers/generateToken.js';
 import { userSchema } from '../validations/userValidation.js';
+import filterObj from '../utils/filterObject.js';
 
 const registerUser = async (req, res) => {
   try {
@@ -213,4 +214,43 @@ const updatePassword = async (req, res) => {
   }
 };
 
-export { registerUser, login, logout, updatePassword, resetPassword, forgotPassword };
+const updateMe = async (req, res) => {
+  try {
+    // create an error if a user tries to update password
+    if (req.body.password || req.body.confirm_password) {
+      return res.status(400).json({
+        success: false,
+        message: 'The routr is not for password updates.Please use /updatePassword',
+      });
+    }
+    // Update user document
+    const user = await userService.findUserById(req.user.id);
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: 'User does not exists',
+      });
+    }
+    const filteredBody = filterObj(req.body, 'firstName', 'lastName', 'émail', 'image');
+    const { error } = filteredBody;
+    if (error) {
+      return res.status(400).json({
+        success: false,
+        errors: error.details.message,
+      });
+    }
+    const updatedUser = await userService.updateMe(req.user.id, filteredBody);
+    return res.status(200).json({
+      success: true,
+      message: 'user profile updated successfully',
+      result: updatedUser,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export { registerUser, updateMe, login, logout, updatePassword, resetPassword, forgotPassword };

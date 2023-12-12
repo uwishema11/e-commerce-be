@@ -71,8 +71,17 @@ const updatePassword = async (email, newPassword) => {
   return updatedPassword;
 };
 
+const updateMe = async (id, body) => {
+  const user = await models.User.update(body, {
+    where: { id },
+    returning: true,
+    raw: true,
+  });
+  return user;
+};
 export {
   addUser,
+  updateMe,
   getAllUsers,
   updatePassword,
   findUserById,

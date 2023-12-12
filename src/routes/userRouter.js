@@ -8,7 +8,8 @@ userRouter.post('/register', userController.registerUser);
 userRouter.post('/login', userController.login);
 userRouter.post('/updatePassword', protect, userController.updatePassword);
 userRouter.get('/logout', userController.logout);
-userRouter.post('/forgot_password', userController.forgotPassword);
-userRouter.post('/:token', userController.resetPassword);
+userRouter.patch('/updateMe', protect, userController.updateMe);
+userRouter.post('/forgotPassword', userController.forgotPassword);
+userRouter.post('resetPassword/:token', userController.resetPassword);
 
 export default userRouter;

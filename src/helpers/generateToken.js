@@ -27,7 +27,7 @@ export const verifyAccessToken = async (token) => {
 // setting token in cookies
 
 export const createSendToken = async (user, statusCode, message, res) => {
-  const token = await generateAccessToken(user.id);
+  const token = await generateAccessToken(user);
   const cookieOptions = {
     expiresIn: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000),
     httpOnly: true,
