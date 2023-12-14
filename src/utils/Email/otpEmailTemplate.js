@@ -109,7 +109,7 @@ const sendOtpEmail = (OTP) => `<!DOCTYPE html>
 
 <body style="background-color: #4070f4; margin: 0 !important; padding: 0 !important;">
   <!-- HIDDEN PREHEADER TEXT -->
-  <div style="display: none; font-size: 1px; color: #fefefe; line-height: 1px; font-family: 'Lato', Helvetica, Arial, sans-serif; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden;">You are invited to confirm your email address your password</div>
+  <div style="display: none; font-size: 1px; color: #fefefe; line-height: 1px; font-family: 'Lato', Helvetica, Arial, sans-serif; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden;">You requested One Time Password for Login</div>
   <table border="0" cellpadding="0" cellspacing="0" width="100%">
       <!-- LOGO -->
    
@@ -138,8 +138,8 @@ const sendOtpEmail = (OTP) => `<!DOCTYPE html>
               <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
                   <tr>
                       <td bgcolor="#ffffff" align="left" style="padding: 0px 30px 40px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
-                      <h3 style="color: #666666"><span>Hi <span style="color: rgb(0,165,223);">Dear</span>,</span></h3> <p style="margin: 0;color: #666666">welcome to UC E-commerce App.Below is your OTP<br/><br/></p>
-                      <a href=${OTP} target="_blank" style="color:#4070f4,display:block">Plase do not share it</a>
+                      <h3 style="color: #666666"><span>Hello <span style="color: rgb(0,165,223);">There</span>,</span></h3>  <p style="margin: 0;color: #666666">Here is your OTP :<br/><br/></p>
+                      <p style="color: #4070f4">${OTP} </p>
                       </td>
                   </tr>             
                   <tr>

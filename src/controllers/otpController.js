@@ -7,6 +7,7 @@ import generateOTP from '../utils/otpGenerator';
 const sendOtp = async (req, res) => {
   try {
     const { email } = req.body;
+    console.log(req.body);
     if (!email) {
       return res.status(400).json({
         success: false,
@@ -18,13 +19,14 @@ const sendOtp = async (req, res) => {
 
     // generate pin
     const generatedOtp = await generateOTP();
+    console.log(generatedOtp)
 
     // send the email to the user
-    await sendOtpMail(email, 'OTP for Authentication', sendOtpEmail(generatedOtp));
+    sendOtpMail(email, 'OTP for Authentication', sendOtpEmail(generatedOtp));
 
     // save the  hashed otp in our database
     const salt = await bcrypt.genSalt(10);
-    const hashedOtp = await bcrypt.hash(salt, generatedOtp);
+    const hashedOtp = await bcrypt.hash(generatedOtp, salt);
     const result = await createOtp(hashedOtp);
 
     return res.status(200).json({
