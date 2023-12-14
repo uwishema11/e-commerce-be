@@ -3,7 +3,8 @@ import express from 'express';
 import morgan from 'morgan';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
-import userRouter from './routes/userRouter.js';
+import userRouter from './routes/userRouter';
+import otpRouter from './routes/otpRouter';
 
 const app = express();
 // GLOBAL MIDDLWARE
@@ -25,5 +26,6 @@ app.use(express.static(`${__dirname}/public`));
 app.use(express.urlencoded({ extended: false }));
 
 app.use('/api/v1/user', userRouter);
+app.use('/api/v1/otp', otpRouter);
 
 export default app;
