@@ -3,6 +3,7 @@ import { deleteOtp, createOtp } from '../services/otpService';
 import sendEmail from '../utils/Email/mailer';
 import sendOtpEmail from '../utils/Email/otpEmailTemplate';
 import * as userService from '../services/userService';
+import models from '../database/models'
 import generateOTP from '../utils/otpGenerator';
 
 const sendOtp = async (req, res) => {
@@ -22,8 +23,6 @@ const sendOtp = async (req, res) => {
         message: 'User not found! Please provide the correct registerd email',
       });
     }
-    // delete any old record
-    await deleteOtp(req.user.email);
 
     // generate pin
     const generatedOtp = await generateOTP();
@@ -31,25 +30,14 @@ const sendOtp = async (req, res) => {
     // save the  hashed otp in our database
     const salt = await bcrypt.genSalt(10);
     const hashedOtp = await bcrypt.hash(generatedOtp, salt);
-    const data = {
-      email,
-      hashedOtp,
-    };
-    const result = await createOtp(data);
-    const { error } = result;
-    if (error) {
-      return res.status(400).json({
-        success: false,
-        message: error.message,
-      });
-    }
-    // send the email to the user
+    await models.User.update({ otpSecret: hashedOtp }, { where: { id: user.id } });
+    console.log(user.otpSecret);
+
     sendEmail(email, 'OTP for Authentication', sendOtpEmail(generatedOtp));
 
     return res.status(200).json({
       success: true,
       message: 'OTP was sent to your email',
-      data: result,
     });
   } catch (error) {
     console.log(error);
