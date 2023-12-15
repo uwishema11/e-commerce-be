@@ -1,12 +1,14 @@
-import models from '../database/models';
+import RedisClient from '../utils/initRedis';
 
-const deleteOtp = async (email) => models.OTP.destroy({
-  where: { email },
-});
+const deleteOtp = async (data) => RedisClient.deleteToken(data);
 
-const createOtp = async (body) => {
-  const otp = await models.OTP.create(body);
-  return otp;
+const createOtp = async (data) => {
+  const otpData = await RedisClient.setToken('otp', data);
+  return otpData;
+};
+const getOtp = async () => {
+  const otpData = await RedisClient.getToken('otp');
+  return otpData;
 };
 
-export { deleteOtp, createOtp };
+export { deleteOtp, createOtp, getOtp };

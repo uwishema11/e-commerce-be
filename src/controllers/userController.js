@@ -41,6 +41,7 @@ const registerUser = async (req, res) => {
       confirm_password: hashedConfirmPassword,
     };
     const newUser = await userService.addUser(body);
+    console.log(newUser);
     // remove password from the result
     newUser.password = undefined;
     newUser.confirm_password = undefined;
@@ -253,12 +254,4 @@ const updateMe = async (req, res) => {
   }
 };
 
-export {
-  registerUser,
-  updateMe,
-  login,
-  logout,
-  updatePassword,
-  resetPassword,
-  forgotPassword
-};
+export { registerUser, updateMe, login, logout, updatePassword, resetPassword, forgotPassword };

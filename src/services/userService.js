@@ -70,6 +70,13 @@ const updatePassword = async (email, newPassword) => {
   );
   return updatedPassword;
 };
+const updateUserTwoAuth = async (id) => {
+  const updated = await models.User.update(
+    { twoFactorEnabled: true },
+    { where: { id } }
+  );
+  return updated;
+};
 
 const updateMe = async (id, body) => {
   const user = await models.User.update(body, {
@@ -88,4 +95,5 @@ export {
   updatePasswordResetToken,
   resetPassword,
   findUserByEmail,
+  updateUserTwoAuth
 };

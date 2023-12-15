@@ -17,6 +17,8 @@ export default (sequelize, DataTypes) => {
       firstName: DataTypes.STRING,
       lastName: DataTypes.STRING,
       email: DataTypes.STRING,
+      otpSecret: DataTypes.STRING,
+      twoFactorEnabled: DataTypes.BOOLEAN,
       password: DataTypes.STRING,
       confirm_password: DataTypes.STRING,
     },

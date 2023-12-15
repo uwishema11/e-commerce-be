@@ -17,11 +17,19 @@ export default {
       email: {
         type: Sequelize.STRING,
       },
+      otpSecret: {
+        type: Sequelize.STRING,
+        defaultValue: null,
+      },
       password: {
         type: Sequelize.STRING,
       },
       confirm_password: {
         type: Sequelize.STRING,
+      },
+      twoFactorEnabled: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
       },
       createdAt: {
         allowNull: false,

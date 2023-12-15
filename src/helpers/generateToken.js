@@ -11,7 +11,7 @@ export const generateAccessToken = async (user) => {
     email: user.email,
   };
 
-  const options = { expiresIn: '1h' };
+  const options = { expiresIn: '1d' };
 
   return jwt.sign(payload, secret, options);
 };
