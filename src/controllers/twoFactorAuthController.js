@@ -13,13 +13,15 @@ const enableTwoFactorAuth = async (req, res) => {
       });
     }
     await userService.updateUserTwoAuth(user.id);
-    console.log(user);
     return res.status(200).json({
       success: true,
-      message: '2FA enabled successfully'
+      message: '2FA enabled successfully',
     });
   } catch (error) {
-    console.log(error);
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
 export default enableTwoFactorAuth;

@@ -41,7 +41,6 @@ const registerUser = async (req, res) => {
       confirm_password: hashedConfirmPassword,
     };
     const newUser = await userService.addUser(body);
-    console.log(newUser);
     // remove password from the result
     newUser.password = undefined;
     newUser.confirm_password = undefined;
@@ -52,7 +51,7 @@ const registerUser = async (req, res) => {
       'Confirmation Email',
       sendEmailOnRegistration(req.body.firstName, process.env.BASE_LINK),
     );
-    await createSendToken(newUser, 201, 'check your email for confirmation', res);
+    await createSendToken(newUser, 201, 'check your email to confirm registration', res);
   } catch (error) {
     return res.status(500).json({
       success: false,
@@ -63,7 +62,7 @@ const registerUser = async (req, res) => {
 
 const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, otp } = req.body;
     if (!email && !password) {
       return res.status(400).json({
         success: false,
@@ -81,14 +80,29 @@ const login = async (req, res) => {
     }
     // hash and compare passwords
     const matchedPassword = await bcrypt.compare(password, user.password);
-
     if (!matchedPassword) {
       return res.status(401).json({
         success: false,
         message: 'Invalid email or password. Please try again with the correct credentials.',
       });
     }
-    // sending token to client
+    // Check if 2FA is enabled for the user
+    if (!user.twoFactorEnabled) {
+      return res.status(400).json({
+        success: false,
+        message: 'Please enable 2FA'
+      });
+    }
+    // verify if entred OTP is the same as the  we have in our database
+    const matchedOtp = await bcrypt.compare(otp, user.otpSecret);
+    if (!matchedOtp) {
+      return res.status(400).json({
+        success: true,
+        message: 'OTP do not match! Please provide valid OTP'
+      });
+    }
+    // delete otp from our databse;
+    await userService.deleteUserOtp(user.id);
     await createSendToken(user, 200, 'LoggedIn successfully', res);
   } catch (error) {
     return res.status(500).json({
@@ -254,4 +268,12 @@ const updateMe = async (req, res) => {
   }
 };
 
-export { registerUser, updateMe, login, logout, updatePassword, resetPassword, forgotPassword };
+export {
+  registerUser,
+  updateMe,
+  login,
+  logout,
+  updatePassword,
+  resetPassword,
+  forgotPassword
+};

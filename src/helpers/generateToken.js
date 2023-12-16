@@ -40,8 +40,5 @@ export const createSendToken = async (user, statusCode, message, res) => {
     success: true,
     message,
     accessToken: token,
-    data: {
-      user,
-    },
   });
 };

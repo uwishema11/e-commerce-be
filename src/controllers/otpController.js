@@ -1,9 +1,8 @@
 import bcrypt from 'bcrypt';
-import { deleteOtp, createOtp } from '../services/otpService';
 import sendEmail from '../utils/Email/mailer';
 import sendOtpEmail from '../utils/Email/otpEmailTemplate';
 import * as userService from '../services/userService';
-import models from '../database/models'
+
 import generateOTP from '../utils/otpGenerator';
 
 const sendOtp = async (req, res) => {
@@ -26,12 +25,10 @@ const sendOtp = async (req, res) => {
 
     // generate pin
     const generatedOtp = await generateOTP();
-    console.log(generatedOtp);
     // save the  hashed otp in our database
     const salt = await bcrypt.genSalt(10);
     const hashedOtp = await bcrypt.hash(generatedOtp, salt);
-    await models.User.update({ otpSecret: hashedOtp }, { where: { id: user.id } });
-    console.log(user.otpSecret);
+    await userService.updateUserOtp(hashedOtp, user.id);
 
     sendEmail(email, 'OTP for Authentication', sendOtpEmail(generatedOtp));
 
@@ -40,7 +37,6 @@ const sendOtp = async (req, res) => {
       message: 'OTP was sent to your email',
     });
   } catch (error) {
-    console.log(error);
     return res.status(500).json({
       success: false,
       message: error.message,

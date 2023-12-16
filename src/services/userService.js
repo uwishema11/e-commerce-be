@@ -20,6 +20,15 @@ const findUserByEmail = async (email) => {
   return user;
 };
 
+const updateUserOtp = async (otp, id) => {
+  const user = await models.User.update({ otpSecret: otp }, { where: { id } });
+  return user;
+};
+const deleteUserOtp = async (id) => {
+  const user = await models.User.update({ otpSecret: null }, { where: { id } });
+  return user;
+};
+
 const findUserById = async (userId) => {
   const user = await models.User.findOne({
     where: { id: userId },
@@ -71,10 +80,7 @@ const updatePassword = async (email, newPassword) => {
   return updatedPassword;
 };
 const updateUserTwoAuth = async (id) => {
-  const updated = await models.User.update(
-    { twoFactorEnabled: true },
-    { where: { id } }
-  );
+  const updated = await models.User.update({ twoFactorEnabled: true }, { where: { id } });
   return updated;
 };
 
@@ -95,5 +101,7 @@ export {
   updatePasswordResetToken,
   resetPassword,
   findUserByEmail,
-  updateUserTwoAuth
+  updateUserOtp,
+  deleteUserOtp,
+  updateUserTwoAuth,
 };
