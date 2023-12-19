@@ -17,9 +17,9 @@ export default {
       email: {
         type: Sequelize.STRING,
       },
-      otpSecret: {
-        type: Sequelize.STRING,
-        defaultValue: null,
+      role: {
+        type: Sequelize.ENUM(['admin', 'seller', 'manager']),
+        defaultValue: 'seller',
       },
       password: {
         type: Sequelize.STRING,
@@ -27,7 +27,15 @@ export default {
       confirm_password: {
         type: Sequelize.STRING,
       },
+      otpSecret: {
+        type: Sequelize.STRING,
+        defaultValue: null,
+      },
       twoFactorEnabled: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+      },
+      isVerified: {
         type: Sequelize.BOOLEAN,
         defaultValue: false,
       },

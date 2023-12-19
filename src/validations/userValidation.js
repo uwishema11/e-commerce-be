@@ -4,6 +4,7 @@ export const userSchema = Joi.object().keys({
   firstName: Joi.string().alphanum().required(),
   lastName: Joi.string().alphanum().required(),
   email: Joi.string().email().required(),
+  role: Joi.string(),
   password: Joi.string()
     .required()
     .min(6)

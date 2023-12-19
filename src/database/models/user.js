@@ -21,6 +21,14 @@ export default (sequelize, DataTypes) => {
       twoFactorEnabled: DataTypes.BOOLEAN,
       password: DataTypes.STRING,
       confirm_password: DataTypes.STRING,
+      role: {
+        type: DataTypes.ENUM('admin', 'seller', 'manager'),
+        defaultValue: 'seller'
+      },
+      isVerified: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
     },
     {
       sequelize,

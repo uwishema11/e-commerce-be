@@ -86,23 +86,25 @@ const login = async (req, res) => {
         message: 'Invalid email or password. Please try again with the correct credentials.',
       });
     }
-    // Check if 2FA is enabled for the user
-    if (!user.twoFactorEnabled) {
-      return res.status(400).json({
-        success: false,
-        message: 'Please enable 2FA'
-      });
+    if (user.role === 'seller') {
+      // Check if 2FA is enabled for the user
+      if (!user.twoFactorEnabled) {
+        return res.status(400).json({
+          success: false,
+          message: 'Please enable 2FA',
+        });
+      }
+      // verify if entred OTP is the same as the  we have in our database
+      const matchedOtp = await bcrypt.compare(otp, user.otpSecret);
+      if (!matchedOtp) {
+        return res.status(400).json({
+          success: true,
+          message: 'OTP do not match! Please provide valid OTP',
+        });
+      }
+      // delete otp from our databse;
+      await userService.deleteUserOtp(user.id);
     }
-    // verify if entred OTP is the same as the  we have in our database
-    const matchedOtp = await bcrypt.compare(otp, user.otpSecret);
-    if (!matchedOtp) {
-      return res.status(400).json({
-        success: true,
-        message: 'OTP do not match! Please provide valid OTP'
-      });
-    }
-    // delete otp from our databse;
-    await userService.deleteUserOtp(user.id);
     await createSendToken(user, 200, 'LoggedIn successfully', res);
   } catch (error) {
     return res.status(500).json({
@@ -268,12 +270,4 @@ const updateMe = async (req, res) => {
   }
 };
 
-export {
-  registerUser,
-  updateMe,
-  login,
-  logout,
-  updatePassword,
-  resetPassword,
-  forgotPassword
-};
+export { registerUser, updateMe, login, logout, updatePassword, resetPassword, forgotPassword };
