@@ -9,7 +9,7 @@ export const generateAccessToken = async (user) => {
   const payload = {
     id: user.id,
     email: user.email,
-    role: user.role
+    role: user.role,
   };
 
   const options = { expiresIn: '1d' };

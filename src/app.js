@@ -4,7 +4,9 @@ import morgan from 'morgan';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import userRouter from './routes/userRouter';
+import newsRouter from './routes/news';
 import otpRouter from './routes/otpRouter';
+import productRouter from './routes/productRoute';
 
 const app = express();
 // GLOBAL MIDDLWARE
@@ -26,6 +28,8 @@ app.use(express.static(`${__dirname}/public`));
 app.use(express.urlencoded({ extended: false }));
 
 app.use('/api/v1/user', userRouter);
+app.use('/api/v1/newsLetter', newsRouter);
 app.use('/api/v1/otp', otpRouter);
+app.use('/api/v1/product', productRouter);
 
 export default app;

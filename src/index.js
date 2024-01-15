@@ -1,7 +1,7 @@
-import app from './app.js';
-import sequelize from './database/config/database.js';
+import app from './app';
+import sequelize from './database/config/database';
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 6000;
 const connectToDatabase = async () => {
   try {
     await sequelize.authenticate();
