@@ -1,5 +1,6 @@
+/* eslint-disable require-jsdoc */
 'use strict';
-const { Model } = require('sequelize');
+const { Model, Sequelize } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Product extends Model {
     /**
@@ -8,7 +9,10 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Product.belongsTo(models.User, {
+        foreignKey: 'userId',
+        as: 'users',
+      });
     }
   }
   Product.init(
@@ -19,6 +23,14 @@ module.exports = (sequelize, DataTypes) => {
       description: DataTypes.STRING,
       expireDate: DataTypes.DATE,
       isAvailable: DataTypes.BOOLEAN,
+      userId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'Users',
+          key: 'id'
+        }
+      }
     },
     {
       sequelize,

@@ -1,8 +1,18 @@
 import * as Services from '../services/productService';
+import productSchema from '../validations/productValidation';
 
 const addProduct = async (req, res) => {
   try {
     const product = req.body;
+    //  data validations
+    const validations = await productSchema.validate(product);
+    const { error } = validations;
+    if (error) {
+      return res.status(400).json({
+        success: false,
+        message: error.details.messsage,
+      });
+    }
     // find if product exixsts in our database
     const isExists = await Services.findOneProduct(req.body.productName);
     if (isExists) {

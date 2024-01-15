@@ -15,5 +15,16 @@ const findOneProduct = async (name) => {
   });
   return singleItem;
 };
+const findproductById = async (id) => {
+  const item = await models.Product.findById({
+    where: { id },
+  });
+  return item;
+};
 
-export { createProduct, findAllProducts, findOneProduct };
+const deleteProduct = async (id) =>
+  models.Product.destroy({
+    where: { id },
+  });
+
+export { deleteProduct, createProduct, findAllProducts, findproductById, findOneProduct };
