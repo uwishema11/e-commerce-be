@@ -34,6 +34,7 @@ const sendOtp = async (req, res) => {
 
     return res.status(200).json({
       success: true,
+      result: generatedOtp,
       message: 'OTP was sent to your email',
     });
   } catch (error) {

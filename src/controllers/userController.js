@@ -62,7 +62,7 @@ const registerUser = async (req, res) => {
 
 const login = async (req, res) => {
   try {
-    const { email, password, otp } = req.body;
+    const { email, password } = req.body;
     if (!email && !password) {
       return res.status(400).json({
         success: false,
@@ -94,16 +94,6 @@ const login = async (req, res) => {
           message: 'Please enable 2FA',
         });
       }
-      // verify if entred OTP is the same as the  we have in our database
-      const matchedOtp = await bcrypt.compare(otp, user.otpSecret);
-      if (!matchedOtp) {
-        return res.status(400).json({
-          success: true,
-          message: 'OTP do not match! Please provide valid OTP',
-        });
-      }
-      // delete otp from our databse;
-      await userService.deleteUserOtp(user.id);
     }
     await createSendToken(user, 200, 'LoggedIn successfully', res);
   } catch (error) {
@@ -270,4 +260,6 @@ const updateMe = async (req, res) => {
   }
 };
 
-export { registerUser, updateMe, login, logout, updatePassword, resetPassword, forgotPassword };
+export {
+  registerUser, updateMe, login, logout, updatePassword, resetPassword, forgotPassword
+};

@@ -1,4 +1,4 @@
-const verifySeller = async (res, req, next) => {
+const verifySeller = async (req, res, next) => {
   const user = req.user.role;
   if (user !== 'seller') {
     return res.status(401).json({
