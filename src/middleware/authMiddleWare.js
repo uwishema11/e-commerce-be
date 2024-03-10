@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 import { verifyAccessToken } from '../helpers/generateToken';
 import * as userService from '../services/userService';
 

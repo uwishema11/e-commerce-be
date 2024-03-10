@@ -14,6 +14,7 @@ import filterObj from '../utils/filterObject.js';
 
 const registerUser = async (req, res) => {
   try {
+    // eslint-disable-next-line camelcase
     const { email, password, confirm_password } = req.body;
     const { error } = await userSchema.validate(req.body);
     if (error) {

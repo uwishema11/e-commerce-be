@@ -12,7 +12,13 @@
     "down": "npx sequelize-cli db:migrate:undo",
     "lint": "eslint .",
     "lint-fix": "eslint --fix .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "prepare": "husky install"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": ".husky/pre-commit"
+    }
   },
   "keywords": [],
   "author": "",
@@ -49,7 +55,8 @@
     "redis": "^4.6.11",
     "redis-cli": "^2.1.2",
     "request": "^2.88.2",
-    "sequelize": "^6.35.1"
+    "sequelize": "^6.35.1",
+    "stripe": "^14.14.0"
   },
   "devDependencies": {
     "eslint": "^8.54.0",
@@ -62,6 +69,7 @@
     "eslint-plugin-prettier": "^5.0.1",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "husky": "^8.0.3",
     "prettier": "^3.1.0",
     "sequelize-cli": "^6.6.2"
   }

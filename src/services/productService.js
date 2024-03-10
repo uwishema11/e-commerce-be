@@ -22,9 +22,10 @@ const findproductById = async (id) => {
   return item;
 };
 
-const deleteProduct = async (id) =>
-  models.Product.destroy({
-    where: { id },
-  });
+const deleteProduct = async (id) => models.Product.destroy({
+  where: { id },
+});
 
-export { deleteProduct, createProduct, findAllProducts, findproductById, findOneProduct };
+export {
+  deleteProduct, createProduct, findAllProducts, findproductById, findOneProduct
+};
