@@ -261,6 +261,4 @@ const updateMe = async (req, res) => {
   }
 };
 
-export {
-  registerUser, updateMe, login, logout, updatePassword, resetPassword, forgotPassword
-};
+export { registerUser, updateMe, login, logout, updatePassword, resetPassword, forgotPassword };
