@@ -18,8 +18,8 @@ export default {
         type: Sequelize.STRING,
       },
       role: {
-        type: Sequelize.ENUM(['admin', 'seller', 'manager']),
-        defaultValue: 'seller',
+        type: Sequelize.ENUM(['admin', 'buyer', 'seller', 'manager']),
+        defaultValue: 'buyer',
       },
       password: {
         type: Sequelize.STRING,

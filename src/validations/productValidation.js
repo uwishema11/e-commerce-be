@@ -5,6 +5,6 @@ const productSchema = joi.object({
   price: joi.number().required(),
   description: joi.string().required(),
   quantity: joi.string().required(),
-  expireDate: joi.date().required(),
+  expireDate: joi.date(),
 });
 export default productSchema;

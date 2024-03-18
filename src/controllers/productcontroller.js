@@ -5,7 +5,7 @@ const addProduct = async (req, res) => {
   try {
     const { product } = req.body;
     //  data validations
-    const validations = await productSchema.validate(product);
+    const validations = await productSchema.validate(req.body);
     const { error } = validations;
     if (error) {
       return res.status(400).json({

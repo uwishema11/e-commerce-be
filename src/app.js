@@ -7,6 +7,7 @@ import userRouter from './routes/userRouter';
 import newsRouter from './routes/news';
 import otpRouter from './routes/otpRouter';
 import productRouter from './routes/productRoute';
+import orderRouter from './routes/orderRouter';
 
 const app = express();
 // GLOBAL MIDDLWARE
@@ -31,5 +32,6 @@ app.use('/api/v1/user', userRouter);
 app.use('/api/v1/newsLetter', newsRouter);
 app.use('/api/v1/otp', otpRouter);
 app.use('/api/v1/product', productRouter);
+app.use('/api/v1/order', orderRouter);
 
 export default app;

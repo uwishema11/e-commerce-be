@@ -9,8 +9,14 @@ export default (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate() {
+    static associate(models) {
       // define association here
+      User.hasMany(models.Order, {
+        as: 'user',
+        foreignKey: 'userId',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+      });
     }
   }
   User.init(
@@ -23,8 +29,8 @@ export default (sequelize, DataTypes) => {
       password: DataTypes.STRING,
       confirm_password: DataTypes.STRING,
       role: {
-        type: DataTypes.ENUM('admin', 'seller', 'manager'),
-        defaultValue: 'seller',
+        type: DataTypes.ENUM('admin', 'buyer', 'seller', 'manager'),
+        defaultValue: 'buyer',
       },
       isVerified: {
         type: DataTypes.BOOLEAN,
