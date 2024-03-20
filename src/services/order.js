@@ -6,7 +6,7 @@ const createOrder = async (orderInfo) => {
 };
 
 const getOrderById = async (orderId) => {
-  const order = await models.Order.findById({
+  const order = await models.Order.findOne({
     where: { id: orderId },
     include: [
       {
@@ -18,6 +18,13 @@ const getOrderById = async (orderId) => {
   });
   return order;
 };
+const getOrderByUser = async (id) => {
+  const productInf = await models.Order.findOne({
+    where: { userId: id, status: 'pending' },
+  });
+  return productInf;
+};
+
 const getAllOrder = async () => {
   const allOrders = await models.Order.findAll();
   return allOrders;
@@ -30,6 +37,9 @@ const updateOrder = async (id, orderInfo) => {
     raw: true,
   });
 };
+const updateOrderStatus = (userId, status) => {
+  return models.Order.update({ status }, { where: { userId } });
+};
 
 const deleteOrder = async (id) => {
   return models.Order.destroy({
@@ -37,4 +47,12 @@ const deleteOrder = async (id) => {
   });
 };
 
-export { createOrder, getAllOrder, getOrderById, updateOrder, deleteOrder };
+export {
+  createOrder,
+  updateOrderStatus,
+  getAllOrder,
+  getOrderByUser,
+  getOrderById,
+  updateOrder,
+  deleteOrder,
+};

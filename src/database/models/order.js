@@ -18,7 +18,7 @@ export default (sequelize, DataTypes) => {
         defaultValue: [],
       },
       status: {
-        type: DataTypes.ENUM('pending', 'confirmed', 'incomplete', 'succeeded', 'failed'),
+        type: DataTypes.STRING,
         defaultValue: 'pending',
       },
       totalPrice: {

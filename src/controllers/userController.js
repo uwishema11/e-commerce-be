@@ -54,6 +54,7 @@ const registerUser = async (req, res) => {
     );
     await createSendToken(newUser, 201, 'check your email to confirm registration', res);
   } catch (error) {
+    console.log(error);
     return res.status(500).json({
       success: false,
       message: error.message,
@@ -87,15 +88,15 @@ const login = async (req, res) => {
         message: 'Invalid email or password. Please try again with the correct credentials.',
       });
     }
-    if (user.role === 'seller') {
-      // Check if 2FA is enabled for the user
-      if (!user.twoFactorEnabled) {
-        return res.status(400).json({
-          success: false,
-          message: 'Please enable 2FA',
-        });
-      }
-    }
+    // if (user.role === 'seller') {
+    //   // Check if 2FA is enabled for the user
+    //   if (!user.twoFactorEnabled) {
+    //     return res.status(400).json({
+    //       success: false,
+    //       message: 'Please enable 2FA',
+    //     });
+    //   }
+    // }
     await createSendToken(user, 200, 'LoggedIn successfully', res);
   } catch (error) {
     return res.status(500).json({

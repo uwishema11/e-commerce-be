@@ -22,7 +22,7 @@ module.exports = {
         allowNull: false,
       },
       status: {
-        type: Sequelize.ENUM('pending', 'confirmed', 'incomplete', 'succeeded', 'failed'),
+        type: Sequelize.STRING,
       },
       totalPrice: {
         type: Sequelize.DOUBLE,

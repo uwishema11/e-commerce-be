@@ -30,7 +30,7 @@ export default (sequelize, DataTypes) => {
       confirm_password: DataTypes.STRING,
       role: {
         type: DataTypes.ENUM('admin', 'buyer', 'seller', 'manager'),
-        defaultValue: 'buyer',
+        defaultValue: 'seller',
       },
       isVerified: {
         type: DataTypes.BOOLEAN,

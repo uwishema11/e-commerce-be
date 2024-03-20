@@ -16,7 +16,7 @@ const findOneProduct = async (name) => {
   return singleItem;
 };
 const findproductById = async (id) => {
-  const item = await models.Product.findById({
+  const item = await models.Product.findOne({
     where: { id },
   });
   return item;

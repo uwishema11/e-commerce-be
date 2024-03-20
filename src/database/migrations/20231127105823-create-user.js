@@ -19,7 +19,7 @@ export default {
       },
       role: {
         type: Sequelize.ENUM(['admin', 'buyer', 'seller', 'manager']),
-        defaultValue: 'buyer',
+        defaultValue: 'seller',
       },
       password: {
         type: Sequelize.STRING,

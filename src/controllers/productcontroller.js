@@ -3,7 +3,6 @@ import productSchema from '../validations/productValidation';
 
 const addProduct = async (req, res) => {
   try {
-    const { product } = req.body;
     //  data validations
     const validations = await productSchema.validate(req.body);
     const { error } = validations;
