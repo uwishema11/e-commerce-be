@@ -1,5 +1,5 @@
 import models from '../database/models';
-import RedisClient from '../utils/initRedis';
+import redisClient from '../utils/initRedis';
 
 const addUser = async (newUser) => {
   const registereduser = await models.User.create(newUser);
@@ -37,7 +37,7 @@ const findUserById = async (userId) => {
 };
 
 const updatePasswordResetToken = async (token) => {
-  const passwordResetToken = await RedisClient.setToken('passwordToken', token);
+  const passwordResetToken = await redisClient.setToken('passwordToken', token);
   return passwordResetToken;
 };
 
