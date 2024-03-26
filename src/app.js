@@ -9,6 +9,7 @@ import otpRouter from './routes/otpRouter';
 import productRouter from './routes/productRoute';
 import orderRouter from './routes/orderRouter';
 import paymentRouter from './routes/payment';
+import cartRouter from './routes/cart';
 
 const app = express();
 // GLOBAL MIDDLWARE
@@ -34,6 +35,7 @@ app.use('/api/v1/newsLetter', newsRouter);
 app.use('/api/v1/otp', otpRouter);
 app.use('/api/v1/product', productRouter);
 app.use('/api/v1/order', orderRouter);
+app.use('/api/v1/cart', cartRouter);
 app.use('/api/v1/order/payment', paymentRouter);
 
 export default app;
