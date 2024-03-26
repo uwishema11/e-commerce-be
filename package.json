@@ -5,6 +5,7 @@
   "main": "./src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel ./src/index.js -d build",
     "start": "node --trace-deprecation ./src/index.js",
     "dev": "NODE_ENV=development nodemon --exec babel-node src/index.js",
     "prod": "node index.js",
