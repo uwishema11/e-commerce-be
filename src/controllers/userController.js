@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import * as userService from '../services/userService.js';
 import sendEmailOnRegistration from '../utils/Email/emailTempalte.js';
 import sendEmailOnResetPassword from '../utils/Email/resetPasswordTemplate.js';
+import redisClient from '../utils/initRedis.js';
 import sendEmail from '../utils/Email/mailer.js';
 import {
   generateAccessToken,
@@ -54,7 +55,6 @@ const registerUser = async (req, res) => {
     );
     await createSendToken(newUser, 201, 'check your email to confirm registration', res);
   } catch (error) {
-    console.log(error);
     return res.status(500).json({
       success: false,
       message: error.message,

@@ -34,7 +34,7 @@ const makePayment = async (req, res) => {
       line_items: items,
       mode: 'payment',
     });
-    await Services.updateOrderStatus(req.user.id,'completed');
+    await Services.updateOrderStatus(req.user.id, 'completed');
     return res.status(200).json({
       success: true,
       message: 'payment successfully made',
