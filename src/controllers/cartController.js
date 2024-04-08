@@ -1,9 +1,13 @@
 import * as Services from '../services/cart';
+import * as productService from '../services/productService';
 
 const addToCart = async (req, res) => {
   try {
+    const product = await productService.findproductById(req.params.id);
     const details = {
       productId: req.params.id,
+      productName: product.productName,
+      price: product.price,
       quantity: 1,
     };
     const result = await Services.addToCart(req.user.id, details);
@@ -14,7 +18,6 @@ const addToCart = async (req, res) => {
       data: result,
     });
   } catch (error) {
-    console.log(error);
     return res.status(500).json({
       success: false,
       error: error.message,
