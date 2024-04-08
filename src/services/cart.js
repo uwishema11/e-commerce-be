@@ -1,4 +1,3 @@
-import { findproductById } from './productService';
 import { redisClient } from '../utils/initRedis';
 
 const createCart = async (id) => {
@@ -21,9 +20,6 @@ const updateProductsInCart = async (userId, products) => {
 };
 
 const addToCart = async (userId, item) => {
-  const product = await findproductById(item.productId);
-  console.log(product);
-
   const productList = await getProductsInCart(userId);
   let isInCart = false;
   productList.map((element) => {

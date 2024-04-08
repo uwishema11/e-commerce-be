@@ -3,7 +3,6 @@ import bcrypt from 'bcrypt';
 import * as userService from '../services/userService.js';
 import sendEmailOnRegistration from '../utils/Email/emailTempalte.js';
 import sendEmailOnResetPassword from '../utils/Email/resetPasswordTemplate.js';
-import redisClient from '../utils/initRedis.js';
 import sendEmail from '../utils/Email/mailer.js';
 import {
   generateAccessToken,
