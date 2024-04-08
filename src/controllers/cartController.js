@@ -1,9 +1,14 @@
 import * as Services from '../services/cart';
+import * as productService from '../services/productService';
 
 const addToCart = async (req, res) => {
   try {
+    const product = await productService.findproductById(req.params.id);
+
     const details = {
       productId: req.params.id,
+      name: product.productName,
+      price: product.price,
       quantity: 1,
     };
     const result = await Services.addToCart(req.user.id, details);

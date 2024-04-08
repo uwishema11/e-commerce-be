@@ -10,10 +10,8 @@ const createCart = async (id) => {
 const getProductsInCart = async (id) => {
   const cart = await redisClient.get(`client:${id}`);
   if (!cart) {
-    console.log('no cart');
     await createCart(id);
   }
-  console.log(`here is your ${cart}`);
   return JSON.parse(cart);
 };
 const updateProductsInCart = async (userId, products) => {
@@ -31,6 +29,7 @@ const addToCart = async (userId, item) => {
   productList.map((element) => {
     if (element.productId === item.productId) {
       isInCart = true;
+      element.price += item.price;
       element.quantity += 1;
     }
   });
