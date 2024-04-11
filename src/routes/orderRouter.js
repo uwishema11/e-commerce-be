@@ -5,7 +5,7 @@ import * as orderController from '../controllers/orderController';
 
 const orderRouter = express.Router();
 
-orderRouter.post('/', protect, orderController.createOrder);
+orderRouter.post('/create', protect, orderController.createOrder);
 orderRouter.get('/', protect, verifyAdmin, orderController.getAllOrders);
 
 export default orderRouter;

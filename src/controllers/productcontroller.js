@@ -63,4 +63,88 @@ const getAllProducts = async (req, res) => {
   }
 };
 
-export { addProduct, getAllProducts };
+const getSingleProduct = async (req, res) => {
+  try {
+    const product = req.params.productId;
+
+    const singleProduct = await Services.findproductById(product);
+    if (!singleProduct) {
+      return res.status(404).json({
+        success: 'failled',
+        message: 'A product is  not found',
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      message: 'Product successfully found.',
+      result: singleProduct,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: 'fail',
+      message: error.message,
+    });
+  }
+};
+
+const deleteSingleProduct = async (req, res) => {
+  try {
+    const product = req.params.productId;
+    if (!product) {
+      return res.status(404).json({
+        success: 'failled',
+        message: ' Please  select a product to be deleted',
+      });
+    }
+    const isProductExist = await Services.findproductById(product);
+    if (!isProductExist) {
+      return res.status(404).json({
+        success: 'failled',
+        message: 'Product not found',
+      });
+    }
+    await Services.deleteProduct(product);
+    return res.status(200).json({
+      success: true,
+      message: 'product succfully deleted',
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      success: 'fail',
+      message: error.message,
+    });
+  }
+};
+
+const updateProduct = async (req, res) => {
+  try {
+    const product = req.params.productId;
+    if (!product) {
+      return res.status(404).json({
+        success: 'failled',
+        message: ' Please  identify an Product to be updated',
+      });
+    }
+    const isProductExist = await Services.findproductById(product);
+    if (!isProductExist) {
+      return res.status(404).json({
+        success: 'failled',
+        message: 'Product not found',
+      });
+    }
+    const updatedProduct = await Services.updateProduct(product, req.body);
+    res.status(200).json({
+      success: true,
+      message: 'Product succfully updated',
+      result: updatedProduct,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      success: 'failled',
+      message: error.message,
+    });
+  }
+};
+export { addProduct, deleteSingleProduct, getAllProducts, getSingleProduct, updateProduct };
