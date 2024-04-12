@@ -1,6 +1,6 @@
 import express from 'express';
-import sendOtp from '../controllers/otpController';
-import enableTwoFactorAuth from '../controllers/twoFactorAuthController';
+import sendOtp from '../controllers/otpController.js';
+import enableTwoFactorAuth from '../controllers/twoFactorAuthController.js';
 
 const otpRouter = express.Router();
 

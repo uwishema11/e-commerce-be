@@ -1,8 +1,9 @@
 import express from 'express';
-import addToCart from '../controllers/cartController';
-import protect from '../middleware/authMiddleWare';
+import * as productController from '../controllers/cartController.js';
+import protect from '../middleware/authMiddleWare.js';
 
 const cartRouter = express.Router();
 
-cartRouter.post('/:id', protect, addToCart);
+cartRouter.post('/:id', protect, productController.addToCart);
+cartRouter.get('/', protect, productController.viewCart);
 export default cartRouter;

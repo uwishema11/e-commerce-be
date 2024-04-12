@@ -1,4 +1,4 @@
-import models from '../database/models';
+import models from '../database/models/index';
 
 const createProduct = async (productInformation) => {
   const createdItem = await models.Product.create(productInformation);
@@ -27,4 +27,19 @@ const deleteProduct = async (id) =>
     where: { id },
   });
 
-export { deleteProduct, createProduct, findAllProducts, findproductById, findOneProduct };
+const updateProduct = async (id, productInfo) => {
+  return models.Product.update(productInfo, {
+    where: { id },
+    returning: true,
+    row: true,
+  });
+};
+
+export {
+  deleteProduct,
+  createProduct,
+  findAllProducts,
+  findproductById,
+  findOneProduct,
+  updateProduct,
+};

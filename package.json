@@ -2,14 +2,13 @@
   "name": "e-commerce-be",
   "version": "1.0.0",
   "description": "",
-  
   "main": "./src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "babel ./src/index.js -d build",
-    "start": "node --trace-deprecation ./src/index.js",
+    "start": "babel-node ./src/index.js",
     "dev": "NODE_ENV=development nodemon --exec babel-node src/index.js",
-    "prod": "node index.js",
+    "prod": "NODE_ENV=production node --exec babel-node src/index.js",
     "migration": "npx sequelize-cli db:migrate",
     "down": "npx sequelize-cli db:migrate:undo",
     "lint": "eslint .",
@@ -57,7 +56,9 @@
     "redis-cli": "^2.1.2",
     "request": "^2.88.2",
     "sequelize": "^6.35.1",
-    "stripe": "^14.21.0"
+    "stripe": "^14.21.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0"
   },
   "devDependencies": {
     "eslint": "^8.54.0",

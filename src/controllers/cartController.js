@@ -24,4 +24,18 @@ const addToCart = async (req, res) => {
     });
   }
 };
-export default addToCart;
+const viewCart = async (req, res) => {
+  try {
+    const allProductsInCart = await Services.getProductsInCart(req.user.id);
+    return res.status(200).json({
+      success: true,
+      data: allProductsInCart,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+export { addToCart, viewCart };

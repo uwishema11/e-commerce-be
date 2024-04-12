@@ -1,9 +1,9 @@
 import express from 'express';
-import * as userController from '../controllers/userController';
-import updatingRoles from '../controllers/rolecontroller';
-import verifyAdmin from '../middleware/verifyAdmin';
+import * as userController from '../controllers/userController.js';
+import updatingRoles from '../controllers/rolecontroller.js';
+import verifyAdmin from '../middleware/verifyAdmin.js';
 
-import protect from '../middleware/authMiddleWare';
+import protect from '../middleware/authMiddleWare.js';
 
 const userRouter = express.Router();
 

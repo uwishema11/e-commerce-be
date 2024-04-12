@@ -42,7 +42,7 @@ const updatePasswordResetToken = async (token) => {
 };
 
 const resetPassword = async (token, newPassword, userId, res) => {
-  const freshToken = RedisClient.get('passwordToken');
+  const freshToken = redisClient.get('passwordToken');
   if (!freshToken) {
     return res.status(400).json({
       success: false,
@@ -61,7 +61,7 @@ const resetPassword = async (token, newPassword, userId, res) => {
       where: { id: userId },
     },
   );
-  await RedisClient.del('passwordToken');
+  await redisClient.del('passwordToken');
   if (updatedUser) {
     return res.status(201).json({
       success: true,
