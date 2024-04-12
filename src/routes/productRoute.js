@@ -6,7 +6,20 @@ import protect from '../middleware/authMiddleWare';
 
 const productRouter = express.Router();
 
-productRouter.post('/', protect, verifySeller, productController.addProduct);
+productRouter.post('/create', protect, verifySeller, productController.addProduct);
 productRouter.get('/', protect, verifyAdmin, productController.getAllProducts);
+productRouter.get('/:productId', protect, verifyAdmin, productController.getSingleProduct);
+productRouter.delete(
+  '/delete/:productId',
+  protect,
+  verifyAdmin,
+  productController.deleteSingleProduct,
+);
+productRouter.patch(
+  '/update/:productId',
+  protect,
+  verifyAdmin,
+  productController.deleteSingleProduct,
+);
 
 export default productRouter;
